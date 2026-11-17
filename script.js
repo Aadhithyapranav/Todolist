@@ -1,29 +1,38 @@
 
-const display = document.getElementById('display');
+function addTask() {
 
-function addValue(value) {
-    display.value += value;
-}
+    let input = document.getElementById("taskInput");
 
-function clearDisplay() {
-    display.value = '';
-}
+    let task = input.value.trim();
 
-function deleteValue() {
-    display.value = display.value.slice(0, -1);
-}
-
-function calculate() {
-    try {
-        if (!/^[0-9+\-*/. ]+$/.test(display.value)) {
-            throw new Error("Invalid");
-        }
-
-        display.value = Function(
-            '"use strict"; return (' + display.value + ')'
-        )();
+    if (task === "") {
+        alert("Please enter a task!");
+        return;
     }
-    catch {
-        display.value = 'Error';
-    }
+
+    let li = document.createElement("li");
+
+    let span = document.createElement("span");
+    span.textContent = task;
+
+    // Complete task
+    span.onclick = function() {
+        li.classList.toggle("completed");
+    };
+
+    // Delete button
+    let button = document.createElement("button");
+    button.textContent = "Delete";
+    button.className = "delete";
+
+    button.onclick = function() {
+        li.remove();
+    };
+
+    li.appendChild(span);
+    li.appendChild(button);
+
+    document.getElementById("taskList").appendChild(li);
+
+    input.value = "";
 }

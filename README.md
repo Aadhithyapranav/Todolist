@@ -41,47 +41,26 @@ Upload to GitHub Pages for free hosting.
 index.html
 ```
 
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Calculator</title>
+    <title>To-Do List</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="calculator">
+    <div class="container">
+        <h1>My To-Do List</h1>
 
-        <h2>Simple Calculator</h2>
+        <div class="input-box">
+            <input type="text" id="taskInput"
+                   placeholder="Enter your task">
 
-        <input type="text" id="display">
-
-        <div class="buttons">
-            <button onclick="clearDisplay()">C</button>
-            <button onclick="addValue('/')">/</button>
-            <button onclick="addValue('*')">*</button>
-            <button onclick="deleteValue()">DEL</button>
-
-            <button onclick="addValue('7')">7</button>
-            <button onclick="addValue('8')">8</button>
-            <button onclick="addValue('9')">9</button>
-            <button onclick="addValue('-')">-</button>
-
-            <button onclick="addValue('4')">4</button>
-            <button onclick="addValue('5')">5</button>
-            <button onclick="addValue('6')">6</button>
-            <button onclick="addValue('+')">+</button>
-
-            <button onclick="addValue('1')">1</button>
-            <button onclick="addValue('2')">2</button>
-            <button onclick="addValue('3')">3</button>
-            <button onclick="calculate()">=</button>
-
-            <button onclick="addValue('0')">0</button>
-            <button onclick="addValue('.')">.</button>
+            <button onclick="addTask()">Add</button>
         </div>
 
+        <ul id="taskList"></ul>
     </div>
 
     <script src="script.js"></script>
@@ -93,102 +72,120 @@ index.html
 style.css
 ```
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f7f6;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
 }
 
-.calculator {
-    background: white;
+.container {
+    width: 400px;
+    margin: 100px auto;
     padding: 25px;
+    background: white;
     border-radius: 10px;
-    width: 320px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px gray;
 }
 
-h2 {
+h1 {
     text-align: center;
-    margin-bottom: 20px;
-    color: #2c3e50;
+    color: #6c63ff;
 }
 
-#display {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 15px;
-    font-size: 22px;
-    text-align: right;
-}
-
-.buttons {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+.input-box {
+    display: flex;
     gap: 10px;
 }
 
+input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
 button {
-    padding: 15px;
+    padding: 10px 15px;
+    background: #6c63ff;
+    color: white;
     border: none;
     border-radius: 5px;
-    background: #3498db;
-    color: white;
-    font-size: 18px;
     cursor: pointer;
 }
 
-button:hover {
-    background: #2980b9;
+ul {
+    padding: 0;
 }
+
+li {
+    list-style: none;
+    background: #eee;
+    padding: 12px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+}
+
+li.completed span {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.delete {
+    background: red;
+}
+
 
 ```
 script.js
 ```
 
-const display = document.getElementById('display');
 
-function addValue(value) {
-    display.value += value;
-}
+function addTask() {
 
-function clearDisplay() {
-    display.value = '';
-}
+    let input = document.getElementById("taskInput");
 
-function deleteValue() {
-    display.value = display.value.slice(0, -1);
-}
+    let task = input.value.trim();
 
-function calculate() {
-    try {
-        if (!/^[0-9+\-*/. ]+$/.test(display.value)) {
-            throw new Error("Invalid");
-        }
-
-        display.value = Function(
-            '"use strict"; return (' + display.value + ')'
-        )();
+    if (task === "") {
+        alert("Please enter a task!");
+        return;
     }
-    catch {
-        display.value = 'Error';
-    }
+
+    let li = document.createElement("li");
+
+    let span = document.createElement("span");
+    span.textContent = task;
+
+    // Complete task
+    span.onclick = function() {
+        li.classList.toggle("completed");
+    };
+
+    // Delete button
+    let button = document.createElement("button");
+    button.textContent = "Delete";
+    button.className = "delete";
+
+    button.onclick = function() {
+        li.remove();
+    };
+
+    li.appendChild(span);
+    li.appendChild(button);
+
+    document.getElementById("taskList").appendChild(li);
+
+    input.value = "";
 }
+
 
 ```
 
 ## OUTPUT
-![alt text](<Screenshot 2026-11-17 115001.png>)
-![alt text](<Screenshot 2026-11-17 115012.png>)
-![alt text](<Screenshot 2026-11-17 115021.png>)
+![alt text](<Screenshot 2026-11-17 145502.png>)
+![alt text](<Screenshot 2026-11-17 145516.png>)
 
 ## RESULT
 The program for creating To-do list using JavaScript is executed successfully.
