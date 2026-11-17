@@ -38,8 +38,9 @@ Deploy the website.
 Upload to GitHub Pages for free hosting.
 
 ## PROGRAM
-INDEX.HTML
+index.html
 ```
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
